@@ -1,0 +1,23 @@
+{% extends "common.html" %}
+
+    {% block content %}
+    {% load static %}
+
+    <h3 class="text-center color-text">Welcome back {{name}}</h3>
+
+    <img src="{% static "images/wall1.jpg" %}" alt="" height="200">
+
+    {% if isAdmin %}
+        <p>You are an admin</p>
+        <b>permissions are;</b>
+        <ul>
+            {% for permission in permissions %}
+                <li>{{permission}}</li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>You are a user</p>
+    {% endif %}
+
+    {% endblock content %}
