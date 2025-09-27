@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserForm
 from .models import Example
 from django.contrib import messages
@@ -58,3 +58,39 @@ def aboutView(request):
         request,
         'about.html'
     )
+    
+    
+def deleteUser(request, id):
+    # user = get_object_or_404(Example, id=id)
+    try:
+        user = Example.objects.get(id=id)
+        # user = get_object_or_404(Example, id=id)
+        user.delete()
+        messages.success(request, 'User deleted successfully')
+    except Example.DoesNotExist:
+        messages.success(request, 'User not found')
+    
+    return redirect('home')
+
+
+def editUser(request, id):
+    user = get_object_or_404(Example, id=id)
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User edited successfully')
+        else:
+            messages.success(request, 'error occured while editing user')
+            
+        return redirect('home')
+    
+    else:
+        form = UserForm(instance=user)
+        return render(
+            request,
+            template_name='editForm.html',
+            context={
+                'form': form
+            }
+        )
