@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserForm
 from .models import Example
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required
 def homeView(request):
     # name = 'Arise Damilare'
     # isAdmin = True
@@ -59,7 +60,7 @@ def aboutView(request):
         'about.html'
     )
     
-    
+@login_required    
 def deleteUser(request, id):
     # user = get_object_or_404(Example, id=id)
     try:
@@ -72,7 +73,7 @@ def deleteUser(request, id):
     
     return redirect('home')
 
-
+@login_required
 def editUser(request, id):
     user = get_object_or_404(Example, id=id)
     if request.method == 'POST':
