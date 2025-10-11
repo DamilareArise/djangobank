@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from app.models import Example
 from .serializers import ContactSerializer
+from rest_framework.views import APIView
 
 # Create your views here.
 
@@ -22,7 +23,7 @@ def contact_list(request):
     else:
         
         serializer = ContactSerializer(contacts, many=True)
-        print(serializer)
+        # print(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
@@ -47,3 +48,33 @@ def contact_detail(request, id):
     elif request.method == 'DELETE':
         contact.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+    
+    
+#  APIView Class based view
+
+class ContactView(APIView):
+    
+    def get(self, request, id=None):
+        if id:  
+            try:
+                contact = Example.objects.get(id=id)
+            except Example.DoesNotExist:
+                return Response({'error': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
+            
+            serializer = ContactSerializer(contact)
+        else:
+            contacts = Example.objects.all()
+            serializer = ContactSerializer(contacts, many=True)
+            
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        pass
+    
+    def put(self, request, id=None):
+        pass
+    
+    def delete(self, request, id=None):
+        pass
