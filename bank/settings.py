@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "app",
     "userApp",
+    "apiApp",
     'crispy_forms',
     'crispy_bootstrap5',
+    'rest_framework',
     'django_cleanup.apps.CleanupConfig',
 ]
 

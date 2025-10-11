@@ -10,8 +10,7 @@ def homeView(request):
     # name = 'Arise Damilare'
     # isAdmin = True
     # permissions = ['can delete', 'can create', 'can edit', 'can read']
-    
-    form = UserForm()
+    # form = UserForm()
     
     infos = Example.objects.all() # returns array of object
     # infos = Example.objects.filter(email__contains='arise') # returns array of filterd object
@@ -21,7 +20,7 @@ def homeView(request):
     # for info in infos:
     #     print(info.email)
     
-    if request.method == 'POST':
+    # if request.method == 'POST':
         # fullname = request.POST.get('fullname') 
         # email = request.POST.get('email')
         # image = request.FILES.get('image')
@@ -34,12 +33,12 @@ def homeView(request):
     
         
         
-        form = UserForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Form submitted successfully')
-        else:
-            messages.error(request, 'Form submission failed')
+        # form = UserForm(request.POST, request.FILES)
+        # if form.is_valid():
+        #     form.save()
+        #     messages.success(request, 'Form submitted successfully')
+        # else:
+        #     messages.error(request, 'Form submission failed')
     
     return render(
         request=request,
@@ -48,8 +47,8 @@ def homeView(request):
             # "name": name,
             # "isAdmin": isAdmin,
             # "permissions": permissions,
-            'infos': infos,
-            'form': form
+            # 'form': form,
+            'infos': infos
         }
     )
     
@@ -60,6 +59,23 @@ def aboutView(request):
         'about.html'
     )
     
+def createUser(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Form submitted successfully')
+        else:
+            messages.error(request, 'Form submission failed')
+            
+        return redirect('home')
+    
+    else:
+        form = UserForm()
+        return render(request, 'contactForm.html', {'form': form})
+    
+    
+        
 @login_required    
 def deleteUser(request, id):
     # user = get_object_or_404(Example, id=id)

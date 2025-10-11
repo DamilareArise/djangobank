@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from app.views import homeView, aboutView, deleteUser, editUser
+from app.views import homeView, aboutView, deleteUser, editUser, createUser
 from userApp.views import SignupView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,6 +30,8 @@ urlpatterns = [
     path('edit-user/<int:id>/', editUser, name="edit-user"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup', SignupView.as_view(), name='signup'),
+    path('create-user/', createUser, name='create-user'),
+    path('api/', include('apiApp.urls') )
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
